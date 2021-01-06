@@ -29,7 +29,7 @@ public class Bot extends TelegramLongPollingBot {
             try {
                 text = Weather.getWeather(text);
             } catch (IOException e) {
-                e.printStackTrace();
+                text = "Ошибка!";
             }
             sendAnswer(chatId, text);
         }
