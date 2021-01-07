@@ -1,4 +1,3 @@
-import jdk.nashorn.internal.objects.NativeRegExp;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -26,12 +25,25 @@ public class Bot extends TelegramLongPollingBot {
             long chatId = message.getChatId();
 
             String text = message.getText();
-            try {
-                text = Weather.getWeather(text);
-            } catch (IOException e) {
-                text = "Ошибка!";
+            if (text.equals("прогноз")) {
+                try {
+                    text = Weather.getForecastWeather(text);
+                    System.out.println(text);
+                } catch (IOException e) {
+                    text = "Ошибка прогноза";
+                    e.printStackTrace();
+                }
+            } else {
+                try {
+                    text = Weather.getCurrentWeather(text);
+                    System.out.println(text);
+                } catch (IOException e) {
+                    text = "Ошибка!";
+                    e.printStackTrace();
+                }
             }
             sendAnswer(chatId, text);
+
         }
     }
 
